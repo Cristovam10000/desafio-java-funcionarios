@@ -3,7 +3,7 @@ target/
 bin/
 .vscode/
 .idea/
-*.inl
+*.iml
 .project
 .classpath
 .settings/
