@@ -10,7 +10,7 @@ public class Pessoa {
 
     public Pessoa(String nome, LocalDate dataNascimento) {
         Objects.requireNonNull(nome, "nome não pode ser nulo");
-        Objects.requireNonNull(dataNascimento, "data não pode ser nulo");
+        Objects.requireNonNull(dataNascimento, "data não pode ser nula");
         if (nome.isBlank()) {
             throw new IllegalArgumentException("nome não pode ser vazio");
         }
