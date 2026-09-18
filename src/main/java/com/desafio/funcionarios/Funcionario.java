@@ -26,7 +26,7 @@ public class Funcionario extends Pessoa {
     public BigDecimal getSalario() {
         return salario;
     }
-    
+
     public String getFuncao() {
         return funcao;
     }
@@ -38,6 +38,5 @@ public class Funcionario extends Pessoa {
         }
         BigDecimal fator = BigDecimal.ONE.add(percentual);
         this.salario = salario.multiply(fator).setScale(2, RoundingMode.HALF_UP);
-
     }
 }

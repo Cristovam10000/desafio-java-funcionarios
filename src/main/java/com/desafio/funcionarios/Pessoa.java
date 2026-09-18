@@ -1,8 +1,8 @@
 package com.desafio.funcionarios;
 
 import java.time.LocalDate;
-import java.util.Objects;
 import java.time.Period;
+import java.util.Objects;
 
 public class Pessoa {
     private final String nome;
@@ -16,7 +16,6 @@ public class Pessoa {
         }
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-        
     }
 
     public String getNome() {
@@ -34,5 +33,4 @@ public class Pessoa {
         }
         return Period.between(dataNascimento, dataReferencia).getYears();
     }
-
 }

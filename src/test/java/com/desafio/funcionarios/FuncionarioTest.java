@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
-import  java.time.LocalDate;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 public class FuncionarioTest {
@@ -41,8 +41,8 @@ public class FuncionarioTest {
                 new BigDecimal("1000"), "Operador");
         assertEquals(new BigDecimal("1000.00"), funcionario.getSalario());
     }
-    
-       @Test
+
+    @Test
     void naoDeveCriarFuncionarioComNomeEmBranco() {
         assertThrows(IllegalArgumentException.class,
                 () -> new Funcionario("   ", LocalDate.of(1990, 1, 1), new BigDecimal("1000.00"), "Operador"));
@@ -67,12 +67,10 @@ public class FuncionarioTest {
                 () -> maria.reajustarSalario(new BigDecimal("-0.10")));
     }
 
-
     @Test
     void deveCalcularIdadeConsiderandoSeOAniversarioJaPassou() {
         Funcionario maria = criarMaria();
         assertEquals(25, maria.calcularIdade(LocalDate.of(2026, 10, 17)));
         assertEquals(26, maria.calcularIdade(LocalDate.of(2026, 10, 18)));
     }
-    
 }
