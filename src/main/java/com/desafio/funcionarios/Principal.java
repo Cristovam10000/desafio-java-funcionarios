@@ -11,19 +11,35 @@ import java.text.DecimalFormatSymbols;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.desafio.funcionarios.Funcionario;
 
 public class Principal {
     private static final Locale LOCALE_BR = Locale.forLanguageTag("pt-BR");
     private static final DateTimeFormatter FORMATO_DATA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final BigDecimal PERCENTUAL_REAJUSTE = new BigDecimal("0.10");
 
     public static void main(String[] args) {
         List<Funcionario> funcionarios = criarFuncionarios();
-        
+
         removerFuncionarioPorNome(funcionarios, "João");
 
         System.out.println("=== Funcionários ===");
         imprimirFuncionarios((funcionarios));
+
+        aplicarReajuste(funcionarios, PERCENTUAL_REAJUSTE);
+        System.out.println();
+        System.out.println("=== Funcionarios com reajuste de 10% ===");
+        imprimirFuncionarios(funcionarios);
+
+        Map<String, List<Funcionario>> funcionariosPorFuncao = agruparPorFuncao(funcionarios);
+
+        System.out.println();
+        System.out.println("=== Funcionários por função ===");
+        imprimirAgrupadoresPorFuncao(funcionariosPorFuncao);
     }    
 
     static List<Funcionario> criarFuncionarios() {
@@ -65,5 +81,22 @@ public class Principal {
             );
         }
         
+    }
+
+    static void aplicarReajuste(List<Funcionario> funcionarios, BigDecimal percentual) {
+        for (Funcionario funcionario : funcionarios) {
+            funcionario.reajustarSalario(percentual);
+        }
+    }
+
+    static Map<String, List<Funcionario>> agruparPorFuncao(List<Funcionario> funcionarios) {
+        return funcionarios.stream().collect(Collectors.groupingBy(Funcionario::getFuncao, LinkedHashMap::new, Collectors.toList()));
+    }
+
+    static void imprimirAgrupadoresPorFuncao(Map<String, List<Funcionario>> funcionariosPorFuncao) {
+        for (Map.Entry<String, List<Funcionario>> grupo : funcionariosPorFuncao.entrySet()) {
+            System.out.println("-- " + grupo.getKey() + " --");
+            imprimirFuncionarios(grupo.getValue());
+        }
     }
 }
