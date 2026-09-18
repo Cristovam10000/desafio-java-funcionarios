@@ -19,6 +19,9 @@ public class Principal {
 
     public static void main(String[] args) {
         List<Funcionario> funcionarios = criarFuncionarios();
+        
+        removerFuncionarioPorNome(funcionarios, "João");
+
         System.out.println("=== Funcionários ===");
         imprimirFuncionarios((funcionarios));
     }    
