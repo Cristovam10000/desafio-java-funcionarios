@@ -19,12 +19,8 @@ public class Principal {
 
     public static void main(String[] args) {
         List<Funcionario> funcionarios = criarFuncionarios();
-        System.out.println("Funcionários inseridos: " + funcionarios.size()); 
-
-        removerFuncionarioPorNome(funcionarios, "João");
-        System.out.println("Após remover joão:" + funcionarios.size());
-
-        System.out.println(formatarData(LocalDate.of(2000, 10, 18)) + " | " + formatarValor(new BigDecimal("3319.20")));
+        System.out.println("=== Funcionários ===");
+        imprimirFuncionarios((funcionarios));
     }    
 
     static List<Funcionario> criarFuncionarios() {
