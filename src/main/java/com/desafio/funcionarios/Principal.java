@@ -5,15 +5,26 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 import com.desafio.funcionarios.Funcionario;
 
 public class Principal {
+    private static final Locale LOCALE_BR = Locale.forLanguageTag("pt-BR");
+    private static final DateTimeFormatter FORMATO_DATA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     public static void main(String[] args) {
         List<Funcionario> funcionarios = criarFuncionarios();
         System.out.println("Funcionários inseridos: " + funcionarios.size()); 
 
         removerFuncionarioPorNome(funcionarios, "João");
         System.out.println("Após remover joão:" + funcionarios.size());
+
+        System.out.println(formatarData(LocalDate.of(2000, 10, 18)) + " | " + formatarValor(new BigDecimal("3319.20")));
     }    
 
     static List<Funcionario> criarFuncionarios() {
@@ -33,5 +44,27 @@ public class Principal {
 
     static void removerFuncionarioPorNome(List<Funcionario> funcionarios, String nome) {
         funcionarios.removeIf(funcionario -> funcionario.getNome().equals(nome));
+    }
+
+    static String formatarData(LocalDate data) {
+        return data.format(FORMATO_DATA);
+    }
+
+    static String formatarValor(BigDecimal valor) {
+        DecimalFormat formato = new DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(LOCALE_BR));
+        formato.setRoundingMode(RoundingMode.HALF_UP);
+        return formato.format(valor);
+    }
+
+    static void imprimirFuncionarios(List<Funcionario> funcionarios) {
+        for (Funcionario funcionario : funcionarios) {
+            System.out.printf("%-10s %s %12s %s%n",
+                funcionario.getNome(),
+                formatarData(funcionario.getDataNascimento()),
+                formatarValor(funcionario.getSalario()),
+                funcionario.getFuncao()
+            );
+        }
+        
     }
 }
