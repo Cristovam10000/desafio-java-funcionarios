@@ -15,7 +15,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.desafio.funcionarios.Funcionario;
+import java.time.Month;
+import java.util.Comparator;
+import java.util.Set;
+
+
 
 public class Principal {
     private static final Locale LOCALE_BR = Locale.forLanguageTag("pt-BR");
@@ -25,7 +29,7 @@ public class Principal {
     public static void main(String[] args) {
         List<Funcionario> funcionarios = criarFuncionarios();
 
-        removerFuncionarioPorNome(funcionarios, "João");
+        removerFuncionarioPorNome(funcionarios,"João");
 
         System.out.println("=== Funcionários ===");
         imprimirFuncionarios((funcionarios));
@@ -40,6 +44,19 @@ public class Principal {
         System.out.println();
         System.out.println("=== Funcionários por função ===");
         imprimirAgrupadoresPorFuncao(funcionariosPorFuncao);
+
+        System.out.println();
+        System.out.println("=== Aniversariantes dos meses 10 e 12 ===");
+        imprimirFuncionarios(filtrarAniversariantes(funcionarios, Set.of(Month.OCTOBER, Month.DECEMBER)));
+
+        Funcionario maisVelho = encontrarMaisVelho(funcionarios);
+        System.out.println();
+        System.out.println("=== Funcionários com a maior idade ===");
+        System.out.println(maisVelho.getNome() + ", " + maisVelho.calcularIdade(LocalDate.now()) + "anos");
+
+        System.out.println();
+        System.out.println("=== Funcionários em ordem alfabética ===");
+        imprimirFuncionarios(ordenarPorNome(funcionarios));
     }    
 
     static List<Funcionario> criarFuncionarios() {
@@ -99,4 +116,17 @@ public class Principal {
             imprimirFuncionarios(grupo.getValue());
         }
     }
+
+    static List<Funcionario> filtrarAniversariantes(List<Funcionario> funcionarios, Set<Month> meses) {
+        return funcionarios.stream().filter(funcionario -> meses.contains(funcionario.getDataNascimento().getMonth())).toList();
+    }
+
+    static Funcionario encontrarMaisVelho(List<Funcionario> funcionarios) {
+        return funcionarios.stream().min(Comparator.comparing(Funcionario::getDataNascimento)).orElseThrow();
+    }
+
+    static List<Funcionario> ordenarPorNome(List<Funcionario> funcionarios) {
+        return funcionarios.stream().sorted(Comparator.comparing(Funcionario::getNome)).toList();
+    }
+
 }
